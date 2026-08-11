@@ -1,0 +1,3 @@
+com\example\internmatch\service\AuthServiceTest.class
+com\example\internmatch\controller\AuthControllerTest.class
+com\example\internmatch\controller\HealthControllerTest.class

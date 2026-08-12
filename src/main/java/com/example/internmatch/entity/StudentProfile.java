@@ -1,5 +1,6 @@
 package com.example.internmatch.entity;
 
+import com.example.internmatch.enums.WorkMode;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -48,6 +49,19 @@ public class StudentProfile {
     @Column(name = "linkedin_url", length = 255)
     private String linkedinUrl;
 
+    @Column(name = "portfolio_url", length = 255)
+    private String portfolioUrl;
+
+    @Column(length = 100)
+    private String city;
+
+    @Column(name = "graduation_year")
+    private Integer graduationYear;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "preferred_work_mode", length = 20)
+    private WorkMode preferredWorkMode;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -65,7 +79,7 @@ public class StudentProfile {
     public StudentProfile() {
     }
 
-    public StudentProfile(Long id, User user, String studentNumber, String university, String department, Integer gradeLevel, BigDecimal gpa, String cvUrl, String summary, String githubUrl, String linkedinUrl, LocalDateTime createdAt, LocalDateTime updatedAt, List<StudentSkill> studentSkills, List<Application> applications) {
+    public StudentProfile(Long id, User user, String studentNumber, String university, String department, Integer gradeLevel, BigDecimal gpa, String cvUrl, String summary, String githubUrl, String linkedinUrl, String portfolioUrl, String city, Integer graduationYear, WorkMode preferredWorkMode, LocalDateTime createdAt, LocalDateTime updatedAt, List<StudentSkill> studentSkills, List<Application> applications) {
         this.id = id;
         this.user = user;
         this.studentNumber = studentNumber;
@@ -77,6 +91,10 @@ public class StudentProfile {
         this.summary = summary;
         this.githubUrl = githubUrl;
         this.linkedinUrl = linkedinUrl;
+        this.portfolioUrl = portfolioUrl;
+        this.city = city;
+        this.graduationYear = graduationYear;
+        this.preferredWorkMode = preferredWorkMode;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.studentSkills = studentSkills != null ? studentSkills : new ArrayList<>();
@@ -175,6 +193,38 @@ public class StudentProfile {
         this.linkedinUrl = linkedinUrl;
     }
 
+    public String getPortfolioUrl() {
+        return portfolioUrl;
+    }
+
+    public void setPortfolioUrl(String portfolioUrl) {
+        this.portfolioUrl = portfolioUrl;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getGraduationYear() {
+        return graduationYear;
+    }
+
+    public void setGraduationYear(Integer graduationYear) {
+        this.graduationYear = graduationYear;
+    }
+
+    public WorkMode getPreferredWorkMode() {
+        return preferredWorkMode;
+    }
+
+    public void setPreferredWorkMode(WorkMode preferredWorkMode) {
+        this.preferredWorkMode = preferredWorkMode;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -219,6 +269,10 @@ public class StudentProfile {
         private String summary;
         private String githubUrl;
         private String linkedinUrl;
+        private String portfolioUrl;
+        private String city;
+        private Integer graduationYear;
+        private WorkMode preferredWorkMode;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<StudentSkill> studentSkills = new ArrayList<>();
@@ -282,6 +336,26 @@ public class StudentProfile {
             return this;
         }
 
+        public StudentProfileBuilder portfolioUrl(String portfolioUrl) {
+            this.portfolioUrl = portfolioUrl;
+            return this;
+        }
+
+        public StudentProfileBuilder city(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public StudentProfileBuilder graduationYear(Integer graduationYear) {
+            this.graduationYear = graduationYear;
+            return this;
+        }
+
+        public StudentProfileBuilder preferredWorkMode(WorkMode preferredWorkMode) {
+            this.preferredWorkMode = preferredWorkMode;
+            return this;
+        }
+
         public StudentProfileBuilder createdAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
@@ -303,7 +377,7 @@ public class StudentProfile {
         }
 
         public StudentProfile build() {
-            return new StudentProfile(this.id, this.user, this.studentNumber, this.university, this.department, this.gradeLevel, this.gpa, this.cvUrl, this.summary, this.githubUrl, this.linkedinUrl, this.createdAt, this.updatedAt, this.studentSkills, this.applications);
+            return new StudentProfile(this.id, this.user, this.studentNumber, this.university, this.department, this.gradeLevel, this.gpa, this.cvUrl, this.summary, this.githubUrl, this.linkedinUrl, this.portfolioUrl, this.city, this.graduationYear, this.preferredWorkMode, this.createdAt, this.updatedAt, this.studentSkills, this.applications);
         }
     }
 }

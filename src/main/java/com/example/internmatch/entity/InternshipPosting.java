@@ -28,6 +28,19 @@ public class InternshipPosting {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    /** Pozisyon adı (ör. "Backend Developer Intern") */
+    @Column(name = "position_name", length = 150)
+    private String positionName;
+
+    /** Departman (ör. "Software Engineering") */
+    @Column(length = 100)
+    private String department;
+
+    /** Şehir (ör. "Istanbul") */
+    @Column(length = 100)
+    private String city;
+
+    /** Eski 'location' alanı: geriye dönük uyumluluk için korundu */
     @Column(length = 150)
     private String location;
 
@@ -39,14 +52,33 @@ public class InternshipPosting {
     @Column(nullable = false, length = 20)
     private PostingStatus status;
 
+    /** Minimum not ortalaması */
     @Column(name = "min_gpa", precision = 3, scale = 2)
     private BigDecimal minGpa;
 
+    /** Eski 'departmentRequirement' alanı: geriye dönük uyumluluk için korundu */
     @Column(name = "department_requirement", length = 100)
     private String departmentRequirement;
 
+    /** Tercih edilen sınıf seviyesi (ör. "3", "4", "Tüm") */
+    @Column(name = "preferred_grade_level", length = 50)
+    private String preferredGradeLevel;
+
+    /** Staj başlangıç tarihi */
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    /** Staj bitiş tarihi */
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    /** Son başvuru tarihi */
     @Column(name = "application_deadline")
     private LocalDate applicationDeadline;
+
+    /** Kontenjan sayısı */
+    @Column(name = "quota")
+    private Integer quota;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
@@ -69,230 +101,148 @@ public class InternshipPosting {
     public InternshipPosting() {
     }
 
-    public InternshipPosting(Long id, String title, String description, String location, WorkMode workMode, PostingStatus status, BigDecimal minGpa, String departmentRequirement, LocalDate applicationDeadline, Company company, LocalDateTime createdAt, LocalDateTime updatedAt, List<PostingCriterion> criteria, List<Application> applications) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.workMode = workMode;
-        this.status = status;
-        this.minGpa = minGpa;
-        this.departmentRequirement = departmentRequirement;
-        this.applicationDeadline = applicationDeadline;
-        this.company = company;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.criteria = criteria != null ? criteria : new ArrayList<>();
-        this.applications = applications != null ? applications : new ArrayList<>();
-    }
+    // ─── Getters & Setters ────────────────────────────────────────────────────────
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getPositionName() { return positionName; }
+    public void setPositionName(String positionName) { this.positionName = positionName; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public WorkMode getWorkMode() { return workMode; }
+    public void setWorkMode(WorkMode workMode) { this.workMode = workMode; }
+
+    public PostingStatus getStatus() { return status; }
+    public void setStatus(PostingStatus status) { this.status = status; }
+
+    public BigDecimal getMinGpa() { return minGpa; }
+    public void setMinGpa(BigDecimal minGpa) { this.minGpa = minGpa; }
+
+    public String getDepartmentRequirement() { return departmentRequirement; }
+    public void setDepartmentRequirement(String departmentRequirement) { this.departmentRequirement = departmentRequirement; }
+
+    public String getPreferredGradeLevel() { return preferredGradeLevel; }
+    public void setPreferredGradeLevel(String preferredGradeLevel) { this.preferredGradeLevel = preferredGradeLevel; }
+
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public LocalDate getApplicationDeadline() { return applicationDeadline; }
+    public void setApplicationDeadline(LocalDate applicationDeadline) { this.applicationDeadline = applicationDeadline; }
+
+    public Integer getQuota() { return quota; }
+    public void setQuota(Integer quota) { this.quota = quota; }
+
+    public Company getCompany() { return company; }
+    public void setCompany(Company company) { this.company = company; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public List<PostingCriterion> getCriteria() { return criteria; }
+    public void setCriteria(List<PostingCriterion> criteria) { this.criteria = criteria; }
+
+    public List<Application> getApplications() { return applications; }
+    public void setApplications(List<Application> applications) { this.applications = applications; }
+
+    // ─── Builder ──────────────────────────────────────────────────────────────────
 
     public static InternshipPostingBuilder builder() {
         return new InternshipPostingBuilder();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public WorkMode getWorkMode() {
-        return workMode;
-    }
-
-    public void setWorkMode(WorkMode workMode) {
-        this.workMode = workMode;
-    }
-
-    public PostingStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(PostingStatus status) {
-        this.status = status;
-    }
-
-    public BigDecimal getMinGpa() {
-        return minGpa;
-    }
-
-    public void setMinGpa(BigDecimal minGpa) {
-        this.minGpa = minGpa;
-    }
-
-    public String getDepartmentRequirement() {
-        return departmentRequirement;
-    }
-
-    public void setDepartmentRequirement(String departmentRequirement) {
-        this.departmentRequirement = departmentRequirement;
-    }
-
-    public LocalDate getApplicationDeadline() {
-        return applicationDeadline;
-    }
-
-    public void setApplicationDeadline(LocalDate applicationDeadline) {
-        this.applicationDeadline = applicationDeadline;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public List<PostingCriterion> getCriteria() {
-        return criteria;
-    }
-
-    public void setCriteria(List<PostingCriterion> criteria) {
-        this.criteria = criteria;
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
     }
 
     public static class InternshipPostingBuilder {
         private Long id;
         private String title;
         private String description;
+        private String positionName;
+        private String department;
+        private String city;
         private String location;
         private WorkMode workMode;
         private PostingStatus status;
         private BigDecimal minGpa;
         private String departmentRequirement;
+        private String preferredGradeLevel;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private LocalDate applicationDeadline;
+        private Integer quota;
         private Company company;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<PostingCriterion> criteria = new ArrayList<>();
         private List<Application> applications = new ArrayList<>();
 
-        InternshipPostingBuilder() {
-        }
+        InternshipPostingBuilder() {}
 
-        public InternshipPostingBuilder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public InternshipPostingBuilder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public InternshipPostingBuilder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public InternshipPostingBuilder location(String location) {
-            this.location = location;
-            return this;
-        }
-
-        public InternshipPostingBuilder workMode(WorkMode workMode) {
-            this.workMode = workMode;
-            return this;
-        }
-
-        public InternshipPostingBuilder status(PostingStatus status) {
-            this.status = status;
-            return this;
-        }
-
-        public InternshipPostingBuilder minGpa(BigDecimal minGpa) {
-            this.minGpa = minGpa;
-            return this;
-        }
-
-        public InternshipPostingBuilder departmentRequirement(String departmentRequirement) {
-            this.departmentRequirement = departmentRequirement;
-            return this;
-        }
-
-        public InternshipPostingBuilder applicationDeadline(LocalDate applicationDeadline) {
-            this.applicationDeadline = applicationDeadline;
-            return this;
-        }
-
-        public InternshipPostingBuilder company(Company company) {
-            this.company = company;
-            return this;
-        }
-
-        public InternshipPostingBuilder createdAt(LocalDateTime createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public InternshipPostingBuilder updatedAt(LocalDateTime updatedAt) {
-            this.updatedAt = updatedAt;
-            return this;
-        }
-
-        public InternshipPostingBuilder criteria(List<PostingCriterion> criteria) {
-            this.criteria = criteria;
-            return this;
-        }
-
-        public InternshipPostingBuilder applications(List<Application> applications) {
-            this.applications = applications;
-            return this;
-        }
+        public InternshipPostingBuilder id(Long id) { this.id = id; return this; }
+        public InternshipPostingBuilder title(String title) { this.title = title; return this; }
+        public InternshipPostingBuilder description(String description) { this.description = description; return this; }
+        public InternshipPostingBuilder positionName(String positionName) { this.positionName = positionName; return this; }
+        public InternshipPostingBuilder department(String department) { this.department = department; return this; }
+        public InternshipPostingBuilder city(String city) { this.city = city; return this; }
+        public InternshipPostingBuilder location(String location) { this.location = location; return this; }
+        public InternshipPostingBuilder workMode(WorkMode workMode) { this.workMode = workMode; return this; }
+        public InternshipPostingBuilder status(PostingStatus status) { this.status = status; return this; }
+        public InternshipPostingBuilder minGpa(BigDecimal minGpa) { this.minGpa = minGpa; return this; }
+        public InternshipPostingBuilder departmentRequirement(String departmentRequirement) { this.departmentRequirement = departmentRequirement; return this; }
+        public InternshipPostingBuilder preferredGradeLevel(String preferredGradeLevel) { this.preferredGradeLevel = preferredGradeLevel; return this; }
+        public InternshipPostingBuilder startDate(LocalDate startDate) { this.startDate = startDate; return this; }
+        public InternshipPostingBuilder endDate(LocalDate endDate) { this.endDate = endDate; return this; }
+        public InternshipPostingBuilder applicationDeadline(LocalDate applicationDeadline) { this.applicationDeadline = applicationDeadline; return this; }
+        public InternshipPostingBuilder quota(Integer quota) { this.quota = quota; return this; }
+        public InternshipPostingBuilder company(Company company) { this.company = company; return this; }
+        public InternshipPostingBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
+        public InternshipPostingBuilder updatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; return this; }
+        public InternshipPostingBuilder criteria(List<PostingCriterion> criteria) { this.criteria = criteria; return this; }
+        public InternshipPostingBuilder applications(List<Application> applications) { this.applications = applications; return this; }
 
         public InternshipPosting build() {
-            return new InternshipPosting(this.id, this.title, this.description, this.location, this.workMode, this.status, this.minGpa, this.departmentRequirement, this.applicationDeadline, this.company, this.createdAt, this.updatedAt, this.criteria, this.applications);
+            InternshipPosting posting = new InternshipPosting();
+            posting.id = this.id;
+            posting.title = this.title;
+            posting.description = this.description;
+            posting.positionName = this.positionName;
+            posting.department = this.department;
+            posting.city = this.city;
+            posting.location = this.location;
+            posting.workMode = this.workMode;
+            posting.status = this.status;
+            posting.minGpa = this.minGpa;
+            posting.departmentRequirement = this.departmentRequirement;
+            posting.preferredGradeLevel = this.preferredGradeLevel;
+            posting.startDate = this.startDate;
+            posting.endDate = this.endDate;
+            posting.applicationDeadline = this.applicationDeadline;
+            posting.quota = this.quota;
+            posting.company = this.company;
+            posting.createdAt = this.createdAt;
+            posting.updatedAt = this.updatedAt;
+            posting.criteria = this.criteria != null ? this.criteria : new ArrayList<>();
+            posting.applications = this.applications != null ? this.applications : new ArrayList<>();
+            return posting;
         }
     }
 }

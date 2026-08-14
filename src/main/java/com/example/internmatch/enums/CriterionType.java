@@ -7,5 +7,6 @@ public enum CriterionType {
     GPA,
     GRADE_LEVEL,
     LOCATION,
-    WORK_MODE
+    WORK_MODE,
+    CUSTOM
 }

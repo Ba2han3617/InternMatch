@@ -2,30 +2,38 @@ package com.example.internmatch.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MatchScoreResponseDto {
+
     private Long id;
-    private Long applicationId;
-    private BigDecimal overallScore;
-    private BigDecimal skillScore;
-    private BigDecimal gpaScore;
-    private BigDecimal departmentScore;
-    private BigDecimal languageScore;
+    private Long studentProfileId;
+    private String studentName;
+    private Long postingId;
+    private String postingTitle;
+    private String companyName;
+    private BigDecimal totalScore;
+    private Integer matchedCriteriaCount;
+    private Integer totalCriteriaCount;
     private String detailsJson;
+    private List<CriterionResultDetailDto> details;
     private LocalDateTime calculatedAt;
 
     public MatchScoreResponseDto() {
     }
 
-    public MatchScoreResponseDto(Long id, Long applicationId, BigDecimal overallScore, BigDecimal skillScore, BigDecimal gpaScore, BigDecimal departmentScore, BigDecimal languageScore, String detailsJson, LocalDateTime calculatedAt) {
+    public MatchScoreResponseDto(Long id, Long studentProfileId, String studentName, Long postingId, String postingTitle, String companyName, BigDecimal totalScore, Integer matchedCriteriaCount, Integer totalCriteriaCount, String detailsJson, List<CriterionResultDetailDto> details, LocalDateTime calculatedAt) {
         this.id = id;
-        this.applicationId = applicationId;
-        this.overallScore = overallScore;
-        this.skillScore = skillScore;
-        this.gpaScore = gpaScore;
-        this.departmentScore = departmentScore;
-        this.languageScore = languageScore;
+        this.studentProfileId = studentProfileId;
+        this.studentName = studentName;
+        this.postingId = postingId;
+        this.postingTitle = postingTitle;
+        this.companyName = companyName;
+        this.totalScore = totalScore;
+        this.matchedCriteriaCount = matchedCriteriaCount;
+        this.totalCriteriaCount = totalCriteriaCount;
         this.detailsJson = detailsJson;
+        this.details = details;
         this.calculatedAt = calculatedAt;
     }
 
@@ -41,52 +49,68 @@ public class MatchScoreResponseDto {
         this.id = id;
     }
 
-    public Long getApplicationId() {
-        return applicationId;
+    public Long getStudentProfileId() {
+        return studentProfileId;
     }
 
-    public void setApplicationId(Long applicationId) {
-        this.applicationId = applicationId;
+    public void setStudentProfileId(Long studentProfileId) {
+        this.studentProfileId = studentProfileId;
     }
 
-    public BigDecimal getOverallScore() {
-        return overallScore;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setOverallScore(BigDecimal overallScore) {
-        this.overallScore = overallScore;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public BigDecimal getSkillScore() {
-        return skillScore;
+    public Long getPostingId() {
+        return postingId;
     }
 
-    public void setSkillScore(BigDecimal skillScore) {
-        this.skillScore = skillScore;
+    public void setPostingId(Long postingId) {
+        this.postingId = postingId;
     }
 
-    public BigDecimal getGpaScore() {
-        return gpaScore;
+    public String getPostingTitle() {
+        return postingTitle;
     }
 
-    public void setGpaScore(BigDecimal gpaScore) {
-        this.gpaScore = gpaScore;
+    public void setPostingTitle(String postingTitle) {
+        this.postingTitle = postingTitle;
     }
 
-    public BigDecimal getDepartmentScore() {
-        return departmentScore;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setDepartmentScore(BigDecimal departmentScore) {
-        this.departmentScore = departmentScore;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public BigDecimal getLanguageScore() {
-        return languageScore;
+    public BigDecimal getTotalScore() {
+        return totalScore;
     }
 
-    public void setLanguageScore(BigDecimal languageScore) {
-        this.languageScore = languageScore;
+    public void setTotalScore(BigDecimal totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Integer getMatchedCriteriaCount() {
+        return matchedCriteriaCount;
+    }
+
+    public void setMatchedCriteriaCount(Integer matchedCriteriaCount) {
+        this.matchedCriteriaCount = matchedCriteriaCount;
+    }
+
+    public Integer getTotalCriteriaCount() {
+        return totalCriteriaCount;
+    }
+
+    public void setTotalCriteriaCount(Integer totalCriteriaCount) {
+        this.totalCriteriaCount = totalCriteriaCount;
     }
 
     public String getDetailsJson() {
@@ -95,6 +119,14 @@ public class MatchScoreResponseDto {
 
     public void setDetailsJson(String detailsJson) {
         this.detailsJson = detailsJson;
+    }
+
+    public List<CriterionResultDetailDto> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<CriterionResultDetailDto> details) {
+        this.details = details;
     }
 
     public LocalDateTime getCalculatedAt() {
@@ -107,13 +139,16 @@ public class MatchScoreResponseDto {
 
     public static class MatchScoreResponseDtoBuilder {
         private Long id;
-        private Long applicationId;
-        private BigDecimal overallScore;
-        private BigDecimal skillScore;
-        private BigDecimal gpaScore;
-        private BigDecimal departmentScore;
-        private BigDecimal languageScore;
+        private Long studentProfileId;
+        private String studentName;
+        private Long postingId;
+        private String postingTitle;
+        private String companyName;
+        private BigDecimal totalScore;
+        private Integer matchedCriteriaCount;
+        private Integer totalCriteriaCount;
         private String detailsJson;
+        private List<CriterionResultDetailDto> details;
         private LocalDateTime calculatedAt;
 
         MatchScoreResponseDtoBuilder() {
@@ -124,38 +159,53 @@ public class MatchScoreResponseDto {
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder applicationId(Long applicationId) {
-            this.applicationId = applicationId;
+        public MatchScoreResponseDtoBuilder studentProfileId(Long studentProfileId) {
+            this.studentProfileId = studentProfileId;
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder overallScore(BigDecimal overallScore) {
-            this.overallScore = overallScore;
+        public MatchScoreResponseDtoBuilder studentName(String studentName) {
+            this.studentName = studentName;
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder skillScore(BigDecimal skillScore) {
-            this.skillScore = skillScore;
+        public MatchScoreResponseDtoBuilder postingId(Long postingId) {
+            this.postingId = postingId;
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder gpaScore(BigDecimal gpaScore) {
-            this.gpaScore = gpaScore;
+        public MatchScoreResponseDtoBuilder postingTitle(String postingTitle) {
+            this.postingTitle = postingTitle;
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder departmentScore(BigDecimal departmentScore) {
-            this.departmentScore = departmentScore;
+        public MatchScoreResponseDtoBuilder companyName(String companyName) {
+            this.companyName = companyName;
             return this;
         }
 
-        public MatchScoreResponseDtoBuilder languageScore(BigDecimal languageScore) {
-            this.languageScore = languageScore;
+        public MatchScoreResponseDtoBuilder totalScore(BigDecimal totalScore) {
+            this.totalScore = totalScore;
+            return this;
+        }
+
+        public MatchScoreResponseDtoBuilder matchedCriteriaCount(Integer matchedCriteriaCount) {
+            this.matchedCriteriaCount = matchedCriteriaCount;
+            return this;
+        }
+
+        public MatchScoreResponseDtoBuilder totalCriteriaCount(Integer totalCriteriaCount) {
+            this.totalCriteriaCount = totalCriteriaCount;
             return this;
         }
 
         public MatchScoreResponseDtoBuilder detailsJson(String detailsJson) {
             this.detailsJson = detailsJson;
+            return this;
+        }
+
+        public MatchScoreResponseDtoBuilder details(List<CriterionResultDetailDto> details) {
+            this.details = details;
             return this;
         }
 
@@ -165,7 +215,8 @@ public class MatchScoreResponseDto {
         }
 
         public MatchScoreResponseDto build() {
-            return new MatchScoreResponseDto(this.id, this.applicationId, this.overallScore, this.skillScore, this.gpaScore, this.departmentScore, this.languageScore, this.detailsJson, this.calculatedAt);
+            return new MatchScoreResponseDto(this.id, this.studentProfileId, this.studentName, this.postingId, this.postingTitle, this.companyName, this.totalScore, this.matchedCriteriaCount, this.totalCriteriaCount, this.detailsJson, this.details, this.calculatedAt);
         }
     }
 }
+

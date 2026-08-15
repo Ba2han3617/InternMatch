@@ -12,4 +12,4 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo [InternMatch] Uygulama baslatiliyor (port: 8081)...
-java -jar target\internmatch-0.0.1-SNAPSHOT.jar
+java -jar "%USERPROFILE%\.internmatch\target\internmatch-0.0.1-SNAPSHOT.jar"

@@ -35,20 +35,16 @@ public class Application {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private MatchScore matchScore;
-
     public Application() {
     }
 
-    public Application(Long id, StudentProfile studentProfile, InternshipPosting posting, ApplicationStatus status, LocalDateTime appliedAt, String notes, MatchScore matchScore) {
+    public Application(Long id, StudentProfile studentProfile, InternshipPosting posting, ApplicationStatus status, LocalDateTime appliedAt, String notes) {
         this.id = id;
         this.studentProfile = studentProfile;
         this.posting = posting;
         this.status = status;
         this.appliedAt = appliedAt;
         this.notes = notes;
-        this.matchScore = matchScore;
     }
 
     public static ApplicationBuilder builder() {
@@ -103,14 +99,6 @@ public class Application {
         this.notes = notes;
     }
 
-    public MatchScore getMatchScore() {
-        return matchScore;
-    }
-
-    public void setMatchScore(MatchScore matchScore) {
-        this.matchScore = matchScore;
-    }
-
     public static class ApplicationBuilder {
         private Long id;
         private StudentProfile studentProfile;
@@ -118,7 +106,6 @@ public class Application {
         private ApplicationStatus status;
         private LocalDateTime appliedAt;
         private String notes;
-        private MatchScore matchScore;
 
         ApplicationBuilder() {
         }
@@ -153,13 +140,8 @@ public class Application {
             return this;
         }
 
-        public ApplicationBuilder matchScore(MatchScore matchScore) {
-            this.matchScore = matchScore;
-            return this;
-        }
-
         public Application build() {
-            return new Application(this.id, this.studentProfile, this.posting, this.status, this.appliedAt, this.notes, this.matchScore);
+            return new Application(this.id, this.studentProfile, this.posting, this.status, this.appliedAt, this.notes);
         }
     }
 }

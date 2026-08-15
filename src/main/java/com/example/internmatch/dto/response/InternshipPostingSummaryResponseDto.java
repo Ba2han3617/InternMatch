@@ -50,52 +50,121 @@ public class InternshipPostingSummaryResponseDto {
     @Schema(description = "İlan oluşturulma tarihi")
     private LocalDateTime createdAt;
 
-    // ─── Constructors ─────────────────────────────────────────────────────────────
+    // ─── Constructors
+    // ─────────────────────────────────────────────────────────────
 
-    public InternshipPostingSummaryResponseDto() {}
+    public InternshipPostingSummaryResponseDto() {
+    }
 
-    // ─── Getters & Setters ────────────────────────────────────────────────────────
+    // ─── Getters & Setters
+    // ────────────────────────────────────────────────────────
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getPositionName() { return positionName; }
-    public void setPositionName(String positionName) { this.positionName = positionName; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getDepartment() { return department; }
-    public void setDepartment(String department) { this.department = department; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public String getPositionName() {
+        return positionName;
+    }
 
-    public WorkMode getWorkMode() { return workMode; }
-    public void setWorkMode(WorkMode workMode) { this.workMode = workMode; }
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 
-    public PostingStatus getStatus() { return status; }
-    public void setStatus(PostingStatus status) { this.status = status; }
+    public String getDepartment() {
+        return department;
+    }
 
-    public BigDecimal getMinGpa() { return minGpa; }
-    public void setMinGpa(BigDecimal minGpa) { this.minGpa = minGpa; }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 
-    public LocalDate getApplicationDeadline() { return applicationDeadline; }
-    public void setApplicationDeadline(LocalDate applicationDeadline) { this.applicationDeadline = applicationDeadline; }
+    public String getCity() {
+        return city;
+    }
 
-    public Integer getQuota() { return quota; }
-    public void setQuota(Integer quota) { this.quota = quota; }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-    public Long getCompanyId() { return companyId; }
-    public void setCompanyId(Long companyId) { this.companyId = companyId; }
+    public WorkMode getWorkMode() {
+        return workMode;
+    }
 
-    public String getCompanyName() { return companyName; }
-    public void setCompanyName(String companyName) { this.companyName = companyName; }
+    public void setWorkMode(WorkMode workMode) {
+        this.workMode = workMode;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public PostingStatus getStatus() {
+        return status;
+    }
 
-    // ─── Builder ──────────────────────────────────────────────────────────────────
+    public void setStatus(PostingStatus status) {
+        this.status = status;
+    }
+
+    public BigDecimal getMinGpa() {
+        return minGpa;
+    }
+
+    public void setMinGpa(BigDecimal minGpa) {
+        this.minGpa = minGpa;
+    }
+
+    public LocalDate getApplicationDeadline() {
+        return applicationDeadline;
+    }
+
+    public void setApplicationDeadline(LocalDate applicationDeadline) {
+        this.applicationDeadline = applicationDeadline;
+    }
+
+    public Integer getQuota() {
+        return quota;
+    }
+
+    public void setQuota(Integer quota) {
+        this.quota = quota;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    // ─── Builder
+    // ──────────────────────────────────────────────────────────────────
 
     public static InternshipPostingSummaryResponseDtoBuilder builder() {
         return new InternshipPostingSummaryResponseDtoBuilder();
@@ -116,21 +185,73 @@ public class InternshipPostingSummaryResponseDto {
         private String companyName;
         private LocalDateTime createdAt;
 
-        InternshipPostingSummaryResponseDtoBuilder() {}
+        InternshipPostingSummaryResponseDtoBuilder() {
+        }
 
-        public InternshipPostingSummaryResponseDtoBuilder id(Long id) { this.id = id; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder title(String title) { this.title = title; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder positionName(String positionName) { this.positionName = positionName; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder department(String department) { this.department = department; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder city(String city) { this.city = city; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder workMode(WorkMode workMode) { this.workMode = workMode; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder status(PostingStatus status) { this.status = status; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder minGpa(BigDecimal minGpa) { this.minGpa = minGpa; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder applicationDeadline(LocalDate applicationDeadline) { this.applicationDeadline = applicationDeadline; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder quota(Integer quota) { this.quota = quota; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder companyId(Long companyId) { this.companyId = companyId; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder companyName(String companyName) { this.companyName = companyName; return this; }
-        public InternshipPostingSummaryResponseDtoBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
+        public InternshipPostingSummaryResponseDtoBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder positionName(String positionName) {
+            this.positionName = positionName;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder department(String department) {
+            this.department = department;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder city(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder workMode(WorkMode workMode) {
+            this.workMode = workMode;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder status(PostingStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder minGpa(BigDecimal minGpa) {
+            this.minGpa = minGpa;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder applicationDeadline(LocalDate applicationDeadline) {
+            this.applicationDeadline = applicationDeadline;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder quota(Integer quota) {
+            this.quota = quota;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder companyId(Long companyId) {
+            this.companyId = companyId;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder companyName(String companyName) {
+            this.companyName = companyName;
+            return this;
+        }
+
+        public InternshipPostingSummaryResponseDtoBuilder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
 
         public InternshipPostingSummaryResponseDto build() {
             InternshipPostingSummaryResponseDto dto = new InternshipPostingSummaryResponseDto();

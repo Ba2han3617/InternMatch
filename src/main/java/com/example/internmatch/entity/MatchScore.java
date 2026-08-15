@@ -7,50 +7,49 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "match_scores")
+@Table(name = "match_scores", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"student_profile_id", "posting_id"})
+})
 public class MatchScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_id", nullable = false, unique = true)
-    private Application application;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_profile_id", nullable = false)
+    private StudentProfile studentProfile;
 
-    @Column(name = "overall_score", precision = 5, scale = 2, nullable = false)
-    private BigDecimal overallScore;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "posting_id", nullable = false)
+    private InternshipPosting internshipPosting;
 
-    @Column(name = "skill_score", precision = 5, scale = 2)
-    private BigDecimal skillScore;
+    @Column(name = "total_score", precision = 5, scale = 2, nullable = false)
+    private BigDecimal totalScore;
 
-    @Column(name = "gpa_score", precision = 5, scale = 2)
-    private BigDecimal gpaScore;
+    @Column(name = "matched_criteria_count", nullable = false)
+    private Integer matchedCriteriaCount;
 
-    @Column(name = "department_score", precision = 5, scale = 2)
-    private BigDecimal departmentScore;
-
-    @Column(name = "language_score", precision = 5, scale = 2)
-    private BigDecimal languageScore;
+    @Column(name = "total_criteria_count", nullable = false)
+    private Integer totalCriteriaCount;
 
     @Column(name = "details_json", columnDefinition = "TEXT")
     private String detailsJson;
 
     @CreationTimestamp
-    @Column(name = "calculated_at", nullable = false, updatable = false)
+    @Column(name = "calculated_at", nullable = false)
     private LocalDateTime calculatedAt;
 
     public MatchScore() {
     }
 
-    public MatchScore(Long id, Application application, BigDecimal overallScore, BigDecimal skillScore, BigDecimal gpaScore, BigDecimal departmentScore, BigDecimal languageScore, String detailsJson, LocalDateTime calculatedAt) {
+    public MatchScore(Long id, StudentProfile studentProfile, InternshipPosting internshipPosting, BigDecimal totalScore, Integer matchedCriteriaCount, Integer totalCriteriaCount, String detailsJson, LocalDateTime calculatedAt) {
         this.id = id;
-        this.application = application;
-        this.overallScore = overallScore;
-        this.skillScore = skillScore;
-        this.gpaScore = gpaScore;
-        this.departmentScore = departmentScore;
-        this.languageScore = languageScore;
+        this.studentProfile = studentProfile;
+        this.internshipPosting = internshipPosting;
+        this.totalScore = totalScore;
+        this.matchedCriteriaCount = matchedCriteriaCount;
+        this.totalCriteriaCount = totalCriteriaCount;
         this.detailsJson = detailsJson;
         this.calculatedAt = calculatedAt;
     }
@@ -67,52 +66,44 @@ public class MatchScore {
         this.id = id;
     }
 
-    public Application getApplication() {
-        return application;
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
     }
 
-    public void setApplication(Application application) {
-        this.application = application;
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
     }
 
-    public BigDecimal getOverallScore() {
-        return overallScore;
+    public InternshipPosting getInternshipPosting() {
+        return internshipPosting;
     }
 
-    public void setOverallScore(BigDecimal overallScore) {
-        this.overallScore = overallScore;
+    public void setInternshipPosting(InternshipPosting internshipPosting) {
+        this.internshipPosting = internshipPosting;
     }
 
-    public BigDecimal getSkillScore() {
-        return skillScore;
+    public BigDecimal getTotalScore() {
+        return totalScore;
     }
 
-    public void setSkillScore(BigDecimal skillScore) {
-        this.skillScore = skillScore;
+    public void setTotalScore(BigDecimal totalScore) {
+        this.totalScore = totalScore;
     }
 
-    public BigDecimal getGpaScore() {
-        return gpaScore;
+    public Integer getMatchedCriteriaCount() {
+        return matchedCriteriaCount;
     }
 
-    public void setGpaScore(BigDecimal gpaScore) {
-        this.gpaScore = gpaScore;
+    public void setMatchedCriteriaCount(Integer matchedCriteriaCount) {
+        this.matchedCriteriaCount = matchedCriteriaCount;
     }
 
-    public BigDecimal getDepartmentScore() {
-        return departmentScore;
+    public Integer getTotalCriteriaCount() {
+        return totalCriteriaCount;
     }
 
-    public void setDepartmentScore(BigDecimal departmentScore) {
-        this.departmentScore = departmentScore;
-    }
-
-    public BigDecimal getLanguageScore() {
-        return languageScore;
-    }
-
-    public void setLanguageScore(BigDecimal languageScore) {
-        this.languageScore = languageScore;
+    public void setTotalCriteriaCount(Integer totalCriteriaCount) {
+        this.totalCriteriaCount = totalCriteriaCount;
     }
 
     public String getDetailsJson() {
@@ -133,12 +124,11 @@ public class MatchScore {
 
     public static class MatchScoreBuilder {
         private Long id;
-        private Application application;
-        private BigDecimal overallScore;
-        private BigDecimal skillScore;
-        private BigDecimal gpaScore;
-        private BigDecimal departmentScore;
-        private BigDecimal languageScore;
+        private StudentProfile studentProfile;
+        private InternshipPosting internshipPosting;
+        private BigDecimal totalScore;
+        private Integer matchedCriteriaCount;
+        private Integer totalCriteriaCount;
         private String detailsJson;
         private LocalDateTime calculatedAt;
 
@@ -150,33 +140,28 @@ public class MatchScore {
             return this;
         }
 
-        public MatchScoreBuilder application(Application application) {
-            this.application = application;
+        public MatchScoreBuilder studentProfile(StudentProfile studentProfile) {
+            this.studentProfile = studentProfile;
             return this;
         }
 
-        public MatchScoreBuilder overallScore(BigDecimal overallScore) {
-            this.overallScore = overallScore;
+        public MatchScoreBuilder internshipPosting(InternshipPosting internshipPosting) {
+            this.internshipPosting = internshipPosting;
             return this;
         }
 
-        public MatchScoreBuilder skillScore(BigDecimal skillScore) {
-            this.skillScore = skillScore;
+        public MatchScoreBuilder totalScore(BigDecimal totalScore) {
+            this.totalScore = totalScore;
             return this;
         }
 
-        public MatchScoreBuilder gpaScore(BigDecimal gpaScore) {
-            this.gpaScore = gpaScore;
+        public MatchScoreBuilder matchedCriteriaCount(Integer matchedCriteriaCount) {
+            this.matchedCriteriaCount = matchedCriteriaCount;
             return this;
         }
 
-        public MatchScoreBuilder departmentScore(BigDecimal departmentScore) {
-            this.departmentScore = departmentScore;
-            return this;
-        }
-
-        public MatchScoreBuilder languageScore(BigDecimal languageScore) {
-            this.languageScore = languageScore;
+        public MatchScoreBuilder totalCriteriaCount(Integer totalCriteriaCount) {
+            this.totalCriteriaCount = totalCriteriaCount;
             return this;
         }
 
@@ -191,7 +176,8 @@ public class MatchScore {
         }
 
         public MatchScore build() {
-            return new MatchScore(this.id, this.application, this.overallScore, this.skillScore, this.gpaScore, this.departmentScore, this.languageScore, this.detailsJson, this.calculatedAt);
+            return new MatchScore(this.id, this.studentProfile, this.internshipPosting, this.totalScore, this.matchedCriteriaCount, this.totalCriteriaCount, this.detailsJson, this.calculatedAt);
         }
     }
 }
+

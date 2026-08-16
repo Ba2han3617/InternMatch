@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternMatch - Staj Uygunluk Skorunu Keşfet</title>
+  <meta name="description" content="Profilini oluştur, staj ilanlarını incele ve şirketlere ne kadar uygun olduğunu anında gör.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 1. Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <span>InternMatch</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#ozellikler">Özellikler</a></li>
+        <li><a href="#nasil-calisir">Nasıl Çalışır</a></li>
+        <li><a href="#uygunluk-skoru">Uygunluk Skoru</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#uygunluk-skoru" class="btn btn-outline">Giriş Yap</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero Section -->
+  <section class="hero">
+    <div class="container hero-container">
+      
+      <!-- Sol Kolon: Başlık ve Açıklama -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          Yapay Zekâ Destekli Staj Platformu
+        </div>
+
+        <h1 class="hero-title">Staj uygunluk skorunu keşfet</h1>
+
+        <p class="hero-description">
+          Profilini oluştur, staj ilanlarını incele ve şirketlere ne kadar uygun olduğunu anında gör.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#nasil-calisir" class="btn btn-primary">Hemen Başla</a>
+          <a href="#nasil-calisir" class="btn btn-secondary">Nasıl Çalışır?</a>
+        </div>
+      </div>
+
+      <!-- Sağ Kolon: Dashboard Önizleme Kartı -->
+      <div class="hero-preview">
+        <div class="preview-card">
+          <div class="preview-header">
+            <div class="preview-title">
+              <span class="status-dot"></span>
+              Profil & Skor Özeti
+            </div>
+            <span class="score-badge">%100 Uygun</span>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-label">En yüksek skor</div>
+              <div class="stat-value success">%100</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Profil tamamlanma</div>
+              <div class="stat-value">%85</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 85%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recommendation-box">
+            <div class="recommendation-top">
+              <span class="recommendation-tag">Önerilen İlan</span>
+            </div>
+            <div class="job-title">Backend Developer Intern</div>
+            <div class="company-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 21h18M3 7v14M21 7v14M6 21V11m4 10V11m4 10V11m4 10V11M12 3L2 7h20L12 3z"/>
+              </svg>
+              TechNova Yazılım A.Ş.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. Özellik Kartları -->
+  <section id="ozellikler" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Öne Çıkan Özellikler</h2>
+        <p class="section-subtitle">Staj arama ve eşleşme sürecini kolaylaştıran modern araçlar</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Kart 1 -->
+        <div class="feature-card">
+          <div class="feature-icon primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Profilini Oluştur</h3>
+          <p class="feature-text">Eğitim, teknik yetenekler ve ilgi alanlarını ekleyerek kapsamlı stajyer profilini dakikalar içinde hazırla.</p>
+        </div>
+
+        <!-- Kart 2 -->
+        <div class="feature-card">
+          <div class="feature-icon secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Staj İlanlarını Keşfet</h3>
+          <p class="feature-text">Sektörün öncü teknoloji şirketleri tarafından yayınlanan güncel staj fırsatlarını detaylıca incele.</p>
+        </div>
+
+        <!-- Kart 3 -->
+        <div class="feature-card">
+          <div class="feature-icon success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Uygunluk Skorunu Hesapla</h3>
+          <p class="feature-text">Gelişmiş eşleştirme algoritması sayesinde ilan kriterleriyle profilinin uyum yüzdesini anında gör.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Nasıl Çalışır -->
+  <section id="nasil-calisir" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Nasıl Çalışır?</h2>
+        <p class="section-subtitle">Üç kolay adımda sana en uygun staj pozisyonunu bul</p>
+      </div>
+
+      <div class="steps-grid">
+        <!-- Adım 1 -->
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Profil bilgilerini gir</h3>
+          <p class="step-text">Akademik başarım, kullandığın teknolojiler ve yetkinliklerini profil paneline eksiksiz kaydet.</p>
+        </div>
+
+        <!-- Adım 2 -->
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">İlanları incele</h3>
+          <p class="step-text">Sistemde açık olan tüm staj ilanlarını, çalışma modellerini ve şehir seçeneklerini filtrele.</p>
+        </div>
+
+        <!-- Adım 3 -->
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Skorunu hesapla</h3>
+          <p class="step-text">Tek tıkla ilan kriterleri ile uyum skorunu öğren ve yüksek skorlu ilanlara öncelikli başvur.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Dashboard Önizleme Tablosu -->
+  <section id="uygunluk-skoru" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Dashboard Önizleme</h2>
+        <p class="section-subtitle">Canlı verilerle şirketler ve pozisyonlar bazında örnek eşleşme tablosu</p>
+      </div>
+
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Şirket</th>
+                <th>Pozisyon</th>
+                <th>Şehir</th>
+                <th>Çalışma Modeli</th>
+                <th>Uygunluk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="company-cell">TechNova Yazılım A.Ş.</td>
+                <td>Backend Developer Intern</td>
+                <td>İstanbul</td>
+                <td><span class="badge badge-hybrid">Hybrid</span></td>
+                <td>
+                  <div class="match-bar-cell">
+                    <span class="match-percentage high">%100</span>
+                    <div class="match-bar-bg">
+                      <div class="match-bar-fill success" style="width: 100%;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="company-cell">DataSoft</td>
+                <td>Java Intern</td>
+                <td>Ankara</td>
+                <td><span class="badge badge-remote">Remote</span></td>
+                <td>
+                  <div class="match-bar-cell">
+                    <span class="match-percentage medium">%86</span>
+                    <div class="match-bar-bg">
+                      <div class="match-bar-fill primary" style="width: 86%;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="company-cell">CloudWorks</td>
+                <td>Software Intern</td>
+                <td>İzmir</td>
+                <td><span class="badge badge-onsite">Onsite</span></td>
+                <td>
+                  <div class="match-bar-cell">
+                    <span class="match-percentage">%74</span>
+                    <div class="match-bar-bg">
+                      <div class="match-bar-fill teal" style="width: 74%;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <span>InternMatch</span>
+      </a>
+
+      <ul class="footer-links">
+        <li><a href="#ozellikler">Özellikler</a></li>
+        <li><a href="#nasil-calisir">Nasıl Çalışır</a></li>
+        <li><a href="#uygunluk-skoru">Uygunluk Skoru</a></li>
+      </ul>
+
+      <p class="footer-copy">&copy; 2026 InternMatch. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

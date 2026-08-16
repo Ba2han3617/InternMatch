@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +66,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .preferredWorkMode(request.getPreferredWorkMode())
                 .build();
 
-        StudentProfile savedProfile = studentProfileRepository.save(profile);
+        StudentProfile savedProfile = studentProfileRepository.save(Objects.requireNonNull(profile));
         return mapToDto(savedProfile);
     }
 
@@ -99,14 +100,14 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         if (request.getGraduationYear() != null) profile.setGraduationYear(request.getGraduationYear());
         if (request.getPreferredWorkMode() != null) profile.setPreferredWorkMode(request.getPreferredWorkMode());
 
-        StudentProfile updatedProfile = studentProfileRepository.save(profile);
+        StudentProfile updatedProfile = studentProfileRepository.save(Objects.requireNonNull(profile));
         return mapToDto(updatedProfile);
     }
 
     @Override
     @Transactional(readOnly = true)
     public StudentProfileResponseDto getStudentProfileById(Long profileId) {
-        StudentProfile profile = studentProfileRepository.findById(profileId)
+        StudentProfile profile = studentProfileRepository.findById(Objects.requireNonNull(profileId))
                 .orElseThrow(() -> new ResourceNotFoundException("StudentProfile", "id", profileId));
         return mapToDto(profile);
     }
@@ -133,7 +134,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Öğrenci profili bulunamadı. Önce profil oluşturun: POST /api/students/profile"));
 
-        Skill skill = skillRepository.findById(request.getSkillId())
+        Skill skill = skillRepository.findById(Objects.requireNonNull(request.getSkillId()))
                 .orElseThrow(() -> new ResourceNotFoundException("Skill", "id", request.getSkillId()));
 
         if (studentSkillRepository.existsByStudentProfileIdAndSkillId(profile.getId(), skill.getId())) {
@@ -148,7 +149,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .yearsOfExperience(request.getYearsOfExperience())
                 .build();
 
-        StudentSkill savedSkill = studentSkillRepository.save(studentSkill);
+        StudentSkill savedSkill = studentSkillRepository.save(Objects.requireNonNull(studentSkill));
         return mapSkillToDto(savedSkill);
     }
 
@@ -169,7 +170,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
             studentSkill.setYearsOfExperience(request.getYearsOfExperience());
         }
 
-        StudentSkill updatedSkill = studentSkillRepository.save(studentSkill);
+        StudentSkill updatedSkill = studentSkillRepository.save(Objects.requireNonNull(studentSkill));
         return mapSkillToDto(updatedSkill);
     }
 
@@ -185,7 +186,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Bu beceri kaydı bulunamadı veya size ait değil. ID: " + studentSkillId));
 
-        studentSkillRepository.delete(studentSkill);
+        studentSkillRepository.delete(Objects.requireNonNull(studentSkill));
     }
 
     // ─── Mapping Helpers ─────────────────────────────────────────────────────────

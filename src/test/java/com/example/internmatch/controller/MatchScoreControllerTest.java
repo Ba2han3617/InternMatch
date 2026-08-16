@@ -42,8 +42,6 @@ class MatchScoreControllerTest {
 
     private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper;
-
     @Mock
     private MatchScoreService matchScoreService;
 
@@ -55,8 +53,6 @@ class MatchScoreControllerTest {
 
     @BeforeEach
     void setUp() {
-        objectMapper = new ObjectMapper();
-
         mockMvc = MockMvcBuilders.standaloneSetup(matchScoreController)
                 .setCustomArgumentResolvers(new AuthenticationPrincipalArgumentResolver())
                 .build();

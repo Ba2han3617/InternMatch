@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
                 .roles(roles)
                 .build();
 
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(Objects.requireNonNull(user));
         CustomUserDetails userDetails = new CustomUserDetails(savedUser);
         String token = jwtService.generateToken(userDetails);
 

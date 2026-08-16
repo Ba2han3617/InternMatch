@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Component
 public class RoleDataInitializer implements CommandLineRunner {
@@ -28,7 +29,7 @@ public class RoleDataInitializer implements CommandLineRunner {
                 Role role = Role.builder()
                         .name(roleName)
                         .build();
-                roleRepository.save(role);
+                roleRepository.save(Objects.requireNonNull(role));
                 logger.info("Seeded role: {}", roleName);
             }
         });

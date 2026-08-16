@@ -15,7 +15,6 @@ import com.example.internmatch.enums.PostingStatus;
 import com.example.internmatch.enums.RoleName;
 import com.example.internmatch.enums.SkillLevel;
 import com.example.internmatch.enums.WorkMode;
-import com.example.internmatch.exception.ResourceNotFoundException;
 import com.example.internmatch.repository.InternshipPostingRepository;
 import com.example.internmatch.repository.MatchScoreRepository;
 import com.example.internmatch.repository.PostingCriterionRepository;
@@ -41,6 +40,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class MatchScoreServiceTest {
 
     @Mock

@@ -56,6 +56,10 @@ public class MatchScoreServiceImpl implements MatchScoreService {
     @Override
     @Transactional
     public MatchScoreResponseDto calculateMatchScore(Long postingId, User currentUser) {
+        if (postingId == null) {
+            throw new BadRequestException("Staj ilanı ID boş olamaz.");
+        }
+
         if (!hasRole(currentUser, RoleName.ROLE_STUDENT)) {
             throw new AccessDeniedException("Şirket veya Admin öğrenci yerine skor hesaplayamaz.");
         }
@@ -150,6 +154,10 @@ public class MatchScoreServiceImpl implements MatchScoreService {
     @Override
     @Transactional(readOnly = true)
     public List<MatchScoreResponseDto> getPostingMatchScores(Long postingId, User currentUser) {
+        if (postingId == null) {
+            throw new BadRequestException("Staj ilanı ID boş olamaz.");
+        }
+
         InternshipPosting posting = postingRepository.findById(postingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Staj ilanı bulunamadı. ID: " + postingId));
 
@@ -164,6 +172,10 @@ public class MatchScoreServiceImpl implements MatchScoreService {
     @Override
     @Transactional(readOnly = true)
     public MatchScoreResponseDto getMatchScoreById(Long id, User currentUser) {
+        if (id == null) {
+            throw new BadRequestException("Skor ID boş olamaz.");
+        }
+
         MatchScore matchScore = matchScoreRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Skor bulunamadı. ID: " + id));
 

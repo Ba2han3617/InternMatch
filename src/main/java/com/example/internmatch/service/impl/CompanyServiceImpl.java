@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,11 +71,11 @@ public class CompanyServiceImpl implements CompanyService {
                 .taxNumber(request.getTaxNumber())
                 .build();
 
-        Company savedCompany = companyRepository.save(company);
+        Company savedCompany = companyRepository.save(Objects.requireNonNull(company));
 
         // Kullanıcıyı şirkete bağla
         currentUser.setCompany(savedCompany);
-        userRepository.save(currentUser);
+        userRepository.save(Objects.requireNonNull(currentUser));
 
         return mapToDto(savedCompany);
     }
@@ -118,7 +119,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (request.getContactPhone() != null) company.setContactPhone(request.getContactPhone());
         if (request.getTaxNumber() != null)    company.setTaxNumber(request.getTaxNumber());
 
-        Company updatedCompany = companyRepository.save(company);
+        Company updatedCompany = companyRepository.save(Objects.requireNonNull(company));
         return mapToDto(updatedCompany);
     }
 
@@ -127,7 +128,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional(readOnly = true)
     public CompanyResponseDto getCompanyById(Long id) {
-        Company company = companyRepository.findById(id)
+        Company company = companyRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
         return mapToDto(company);
     }
@@ -159,11 +160,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyResponseDto updateVerificationStatus(Long companyId, CompanyStatusUpdateRequest request) {
-        Company company = companyRepository.findById(companyId)
+        Company company = companyRepository.findById(Objects.requireNonNull(companyId))
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", companyId));
 
         company.setVerificationStatus(request.getVerificationStatus());
-        Company updated = companyRepository.save(company);
+        Company updated = companyRepository.save(Objects.requireNonNull(company));
         return mapToDto(updated);
     }
 
@@ -175,11 +176,11 @@ public class CompanyServiceImpl implements CompanyService {
         if (isActive == null) {
             throw new BadRequestException("'isActive' parametresi boş olamaz.");
         }
-        Company company = companyRepository.findById(companyId)
+        Company company = companyRepository.findById(Objects.requireNonNull(companyId))
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", companyId));
 
         company.setIsActive(isActive);
-        Company updated = companyRepository.save(company);
+        Company updated = companyRepository.save(Objects.requireNonNull(company));
         return mapToDto(updated);
     }
 

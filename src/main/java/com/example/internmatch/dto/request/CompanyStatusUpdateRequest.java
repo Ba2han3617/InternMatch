@@ -15,7 +15,7 @@ public class CompanyStatusUpdateRequest {
             description = "Şirket doğrulama durumu",
             example = "VERIFIED",
             allowableValues = {"PENDING", "VERIFIED", "REJECTED"},
-            required = true
+            requiredMode = Schema.RequiredMode.REQUIRED
     )
     private CompanyVerificationStatus verificationStatus;
 

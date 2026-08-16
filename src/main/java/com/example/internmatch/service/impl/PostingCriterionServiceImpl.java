@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +75,8 @@ public class PostingCriterionServiceImpl implements PostingCriterionService {
                 .build();
         clearIrrelevantFields(criterion);
 
-        return mapToDto(criterionRepository.save(criterion));
+        PostingCriterion savedCriterion = criterionRepository.save(Objects.requireNonNull(criterion));
+        return mapToDto(savedCriterion);
     }
 
     @Override
@@ -119,7 +121,8 @@ public class PostingCriterionServiceImpl implements PostingCriterionService {
         }
         criterion.setWeight(nextWeight);
 
-        return mapToDto(criterionRepository.save(criterion));
+        PostingCriterion updatedCriterion = criterionRepository.save(Objects.requireNonNull(criterion));
+        return mapToDto(updatedCriterion);
     }
 
     @Override
@@ -127,16 +130,16 @@ public class PostingCriterionServiceImpl implements PostingCriterionService {
     public void deleteCriterion(Long criteriaId, User currentUser) {
         PostingCriterion criterion = getCriterion(criteriaId);
         validateCompanyCanManage(criterion.getPosting(), currentUser);
-        criterionRepository.delete(criterion);
+        criterionRepository.delete(Objects.requireNonNull(criterion));
     }
 
     private InternshipPosting getPosting(Long postingId) {
-        return postingRepository.findById(postingId)
+        return postingRepository.findById(Objects.requireNonNull(postingId))
                 .orElseThrow(() -> new ResourceNotFoundException("Staj ilanı bulunamadı. ID: " + postingId));
     }
 
     private PostingCriterion getCriterion(Long criteriaId) {
-        return criterionRepository.findById(criteriaId)
+        return criterionRepository.findById(Objects.requireNonNull(criteriaId))
                 .orElseThrow(() -> new ResourceNotFoundException("Kriter bulunamadı. ID: " + criteriaId));
     }
 
@@ -219,10 +222,10 @@ public class PostingCriterionServiceImpl implements PostingCriterionService {
     }
 
     private Skill resolveSkill(CriterionType type, Long skillId) {
-        if (type != CriterionType.SKILL) {
+        if (type != CriterionType.SKILL || skillId == null) {
             return null;
         }
-        return skillRepository.findById(skillId)
+        return skillRepository.findById(Objects.requireNonNull(skillId))
                 .orElseThrow(() -> new ResourceNotFoundException("Beceri bulunamadı. ID: " + skillId));
     }
 

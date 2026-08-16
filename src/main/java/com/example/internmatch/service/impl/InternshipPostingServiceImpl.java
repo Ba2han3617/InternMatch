@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +76,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
                 .company(company)
                 .build();
 
-        InternshipPosting saved = postingRepository.save(posting);
+        InternshipPosting saved = postingRepository.save(Objects.requireNonNull(posting));
         return mapToDetailDto(saved);
     }
 
@@ -84,7 +85,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
     @Override
     @Transactional(readOnly = true)
     public InternshipPostingResponseDto getPostingById(Long id, User currentUser) {
-        InternshipPosting posting = postingRepository.findById(id)
+        InternshipPosting posting = postingRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("InternshipPosting", "id", id));
 
         boolean isAdmin = hasRole(currentUser, RoleName.ROLE_ADMIN);
@@ -166,7 +167,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
     @Override
     @Transactional
     public InternshipPostingResponseDto updatePosting(Long id, UpdateInternshipPostingRequest request, User currentUser) {
-        InternshipPosting posting = postingRepository.findById(id)
+        InternshipPosting posting = postingRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("InternshipPosting", "id", id));
 
         // Yetki kontrolü: sadece sahibi veya admin güncelleyebilir
@@ -206,7 +207,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
         if (request.getApplicationDeadline() != null)   posting.setApplicationDeadline(request.getApplicationDeadline());
         if (request.getQuota() != null)                 posting.setQuota(request.getQuota());
 
-        InternshipPosting updated = postingRepository.save(posting);
+        InternshipPosting updated = postingRepository.save(Objects.requireNonNull(posting));
         return mapToDetailDto(updated);
     }
 
@@ -215,7 +216,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
     @Override
     @Transactional
     public InternshipPostingResponseDto updatePostingStatus(Long id, PostingStatusUpdateRequest request, User currentUser) {
-        InternshipPosting posting = postingRepository.findById(id)
+        InternshipPosting posting = postingRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("InternshipPosting", "id", id));
 
         boolean isAdmin = hasRole(currentUser, RoleName.ROLE_ADMIN);
@@ -231,7 +232,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
         }
 
         posting.setStatus(request.getStatus());
-        InternshipPosting updated = postingRepository.save(posting);
+        InternshipPosting updated = postingRepository.save(Objects.requireNonNull(posting));
         return mapToDetailDto(updated);
     }
 
@@ -240,7 +241,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
     @Override
     @Transactional
     public void deletePosting(Long id, User currentUser) {
-        InternshipPosting posting = postingRepository.findById(id)
+        InternshipPosting posting = postingRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("InternshipPosting", "id", id));
 
         boolean isAdmin = hasRole(currentUser, RoleName.ROLE_ADMIN);
@@ -252,7 +253,7 @@ public class InternshipPostingServiceImpl implements InternshipPostingService {
 
         // Soft delete: PASSIVE durumuna çek
         posting.setStatus(PostingStatus.PASSIVE);
-        postingRepository.save(posting);
+        postingRepository.save(Objects.requireNonNull(posting));
     }
 
     // ─── Helper Methods ───────────────────────────────────────────────────────────

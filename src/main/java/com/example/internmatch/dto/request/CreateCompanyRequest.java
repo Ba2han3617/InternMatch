@@ -12,17 +12,17 @@ public class CreateCompanyRequest {
 
     @NotBlank(message = "Şirket adı boş olamaz")
     @Size(min = 2, max = 150, message = "Şirket adı 2-150 karakter arasında olmalıdır")
-    @Schema(description = "Şirket adı", example = "TechNova Yazılım A.Ş.", required = true)
+    @Schema(description = "Şirket adı", example = "TechNova Yazılım A.Ş.", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
     @NotBlank(message = "Sektör boş olamaz")
     @Size(max = 100, message = "Sektör en fazla 100 karakter olabilir")
-    @Schema(description = "Sektör", example = "Yazılım ve Teknoloji", required = true)
+    @Schema(description = "Sektör", example = "Yazılım ve Teknoloji", requiredMode = Schema.RequiredMode.REQUIRED)
     private String industry;
 
     @NotBlank(message = "Şehir boş olamaz")
     @Size(max = 100, message = "Şehir en fazla 100 karakter olabilir")
-    @Schema(description = "Şehir", example = "İstanbul", required = true)
+    @Schema(description = "Şehir", example = "İstanbul", requiredMode = Schema.RequiredMode.REQUIRED)
     private String city;
 
     @Size(max = 150, message = "Konum en fazla 150 karakter olabilir")

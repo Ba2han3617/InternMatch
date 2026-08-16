@@ -15,3 +15,4 @@ public interface MatchScoreService {
 
     MatchScoreResponseDto getMatchScoreById(Long id, User currentUser);
 }
+

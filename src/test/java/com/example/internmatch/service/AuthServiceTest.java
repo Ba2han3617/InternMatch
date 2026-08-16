@@ -3,7 +3,6 @@ package com.example.internmatch.service;
 import com.example.internmatch.dto.request.LoginRequest;
 import com.example.internmatch.dto.request.RegisterRequest;
 import com.example.internmatch.dto.response.AuthResponse;
-import com.example.internmatch.dto.response.UserResponseDto;
 import com.example.internmatch.entity.Role;
 import com.example.internmatch.entity.User;
 import com.example.internmatch.enums.RoleName;
@@ -19,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,6 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class AuthServiceTest {
 
     @Mock

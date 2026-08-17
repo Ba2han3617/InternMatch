@@ -254,52 +254,268 @@
     </div>
   </section>
 
-  <!-- 6. API Canlı Demo & Test Alanı -->
+  <!-- 6. Öğrenci Portalı & API Dashboard -->
   <section id="api-demo" class="section section-alt">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Canlı Backend API Eşleşme Paneli</h2>
-        <p class="section-subtitle">Spring Boot REST API servisi ile gerçek zamanlı giriş yapın, aktif ilanları listeleyin ve skor hesaplatın.</p>
+        <h2 class="section-title">Öğrenci Portalı & Eşleşme Paneli</h2>
+        <p class="section-subtitle">Kayıt olun, profilinizi ve becerilerinizi yönetin, aktif staj ilanlarında uygunluk skorunuzu anında hesaplatın.</p>
       </div>
 
       <!-- Bildirim / Mesaj Alanı -->
       <div id="api-message-box" class="api-message-box hidden"></div>
 
-      <div class="api-demo-grid">
-        <!-- Sol Panel: Login & Kullanıcı Durumu -->
+      <!-- Üst Sekme Navigasyonu -->
+      <div class="dashboard-tabs">
+        <button class="tab-btn active" data-tab="auth">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          1. Giriş / Kayıt
+        </button>
+        <button class="tab-btn" data-tab="profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          2. Öğrenci Profili
+        </button>
+        <button class="tab-btn" data-tab="skills">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          3. Becerilerim
+        </button>
+        <button class="tab-btn" data-tab="postings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          4. Staj İlanları & Skor
+        </button>
+      </div>
+
+      <!-- Tab Content 1: Auth (Login & Register) -->
+      <div id="tab-auth" class="tab-pane active">
+        <div class="auth-status-bar">
+          <span class="auth-status-title">Oturum Durumu:</span>
+          <span id="token-status-badge" class="badge badge-error">Giriş Yapılmadı</span>
+          <span id="logged-in-user-info" class="user-info-tag">Ziyaretçi</span>
+          <div id="auth-actions-box" class="hidden">
+            <button id="btn-logout" class="btn btn-secondary btn-sm">Oturumu Kapat</button>
+          </div>
+        </div>
+
+        <div class="api-demo-grid">
+          <!-- Sol Panel: Yeni Öğrenci Kaydı -->
+          <div class="api-card">
+            <div class="api-card-header">
+              <h3 class="api-card-title">
+                Yeni Öğrenci Kaydı
+              </h3>
+              <span class="badge badge-onsite">ROLE_STUDENT</span>
+            </div>
+            <form id="register-form" class="api-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="reg-firstname">Ad</label>
+                  <input type="text" id="reg-firstname" class="form-control" required placeholder="Ahmet">
+                </div>
+                <div class="form-group">
+                  <label for="reg-lastname">Soyad</label>
+                  <input type="text" id="reg-lastname" class="form-control" required placeholder="Yılmaz">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="reg-email">E-posta</label>
+                <input type="email" id="reg-email" class="form-control" required placeholder="ahmet@example.com">
+              </div>
+              <div class="form-group">
+                <label for="reg-password">Şifre (Min 6 Karakter)</label>
+                <input type="password" id="reg-password" class="form-control" required placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label for="reg-phone">Telefon (Opsiyonel)</label>
+                <input type="tel" id="reg-phone" class="form-control" placeholder="+905551112233">
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-full">
+                  Kayıt Ol (POST /api/auth/register)
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Sağ Panel: Mevcut Kullanıcı Girişi -->
+          <div class="api-card">
+            <div class="api-card-header">
+              <h3 class="api-card-title">
+                Giriş Yap
+              </h3>
+              <span class="badge badge-hybrid">JWT Auth</span>
+            </div>
+            <form id="login-form" class="api-form">
+              <div class="form-group">
+                <label for="login-email">E-posta Adresi</label>
+                <input type="email" id="login-email" class="form-control" value="batuhan@example.com" required placeholder="batuhan@example.com">
+              </div>
+              <div class="form-group">
+                <label for="login-password">Şifre</label>
+                <input type="password" id="login-password" class="form-control" value="password123" required placeholder="••••••••">
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-full">
+                  Giriş Yap (POST /api/auth/login)
+                </button>
+              </div>
+            </form>
+            <div class="demo-credentials-info">
+              💡 <strong>Hızlı Test Hesabı:</strong><br>
+              E-posta: <code>batuhan@example.com</code><br>
+              Şifre: <code>password123</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Student Profile -->
+      <div id="tab-profile" class="tab-pane">
         <div class="api-card">
           <div class="api-card-header">
             <h3 class="api-card-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-              Giriş İşlemleri
+              Öğrenci Profil Bilgileri
             </h3>
-            <span id="token-status-badge" class="badge badge-error">Giriş Yapılmadı</span>
+            <span id="profile-status-badge" class="badge badge-error">Profil Yükleniyor...</span>
           </div>
-          <form id="login-form" class="api-form">
-            <div class="form-group">
-              <label for="login-email">Öğrenci E-posta</label>
-              <input type="email" id="login-email" class="form-control" value="batuhan@example.com" required placeholder="batuhan@example.com">
+
+          <form id="profile-form" class="api-form">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="prof-student-number">Öğrenci No</label>
+                <input type="text" id="prof-student-number" class="form-control" placeholder="202201045">
+              </div>
+              <div class="form-group">
+                <label for="prof-university">Üniversite</label>
+                <input type="text" id="prof-university" class="form-control" placeholder="İstanbul Teknik Üniversitesi">
+              </div>
+              <div class="form-group">
+                <label for="prof-department">Bölüm</label>
+                <input type="text" id="prof-department" class="form-control" placeholder="Yazılım Mühendisliği">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="login-password">Şifre</label>
-              <input type="password" id="login-password" class="form-control" value="password123" required placeholder="••••••••">
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="prof-grade-level">Sınıf (1-8)</label>
+                <input type="number" id="prof-grade-level" class="form-control" min="1" max="8" value="4" placeholder="4">
+              </div>
+              <div class="form-group">
+                <label for="prof-gpa">GPA (0.00 - 4.00)</label>
+                <input type="number" id="prof-gpa" class="form-control" step="0.01" min="0" max="4" value="3.50" placeholder="3.50">
+              </div>
+              <div class="form-group">
+                <label for="prof-city">Şehir</label>
+                <input type="text" id="prof-city" class="form-control" value="İstanbul" placeholder="İstanbul">
+              </div>
             </div>
-            <div class="form-actions">
-              <button type="submit" id="btn-login" class="btn btn-primary btn-full">
-                Giriş Yap (POST /api/auth/login)
-              </button>
-              <button type="button" id="btn-logout" class="btn btn-secondary hidden">
-                Otumu Kapat
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="prof-graduation-year">Mezuniyet Yılı</label>
+                <input type="number" id="prof-graduation-year" class="form-control" min="2000" max="2035" value="2026" placeholder="2026">
+              </div>
+              <div class="form-group">
+                <label for="prof-work-mode">Tercih Edilen Çalışma Modeli</label>
+                <select id="prof-work-mode" class="form-control">
+                  <option value="HYBRID">HYBRID (Karma)</option>
+                  <option value="REMOTE">REMOTE (Uzaktan)</option>
+                  <option value="ONSITE">ONSITE (Ofiste)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="prof-cv-url">CV URL</label>
+                <input type="url" id="prof-cv-url" class="form-control" placeholder="https://example.com/cv.pdf">
+              </div>
+              <div class="form-group">
+                <label for="prof-github-url">GitHub URL</label>
+                <input type="url" id="prof-github-url" class="form-control" placeholder="https://github.com/username">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="prof-linkedin-url">LinkedIn URL</label>
+                <input type="url" id="prof-linkedin-url" class="form-control" placeholder="https://linkedin.com/in/username">
+              </div>
+              <div class="form-group">
+                <label for="prof-portfolio-url">Portfolyo URL</label>
+                <input type="url" id="prof-portfolio-url" class="form-control" placeholder="https://portfolio.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="prof-summary">Biyografi / Özet</label>
+              <textarea id="prof-summary" class="form-control" rows="3" placeholder="Kendiniz ve kariyer hedefleriniz hakkında kısa bilgi..."></textarea>
+            </div>
+
+            <div class="form-actions align-right">
+              <button type="submit" id="btn-save-profile" class="btn btn-primary">
+                Profil Bilgilerini Kaydet / Güncelle
               </button>
             </div>
           </form>
         </div>
+      </div>
 
-        <!-- Sağ Panel: Staj İlanları Listesi -->
-        <div class="api-card">
+      <!-- Tab Content 3: Skills -->
+      <div id="tab-skills" class="tab-pane">
+        <div class="api-demo-grid">
+          <!-- Sol Panel: Beceri Ekle Formu -->
+          <div class="api-card">
+            <div class="api-card-header">
+              <h3 class="api-card-title">
+                Yeni Beceri Ekle
+              </h3>
+            </div>
+            <form id="skill-form" class="api-form">
+              <div class="form-group">
+                <label for="skill-select">Katalogdan Beceri Seç</label>
+                <select id="skill-select" class="form-control" required>
+                  <option value="">Yükleniyor...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="skill-level-select">Yetkinlik Seviyesi</label>
+                <select id="skill-level-select" class="form-control" required>
+                  <option value="BEGINNER">BEGINNER (Başlangıç)</option>
+                  <option value="INTERMEDIATE" selected>INTERMEDIATE (Orta)</option>
+                  <option value="ADVANCED">ADVANCED (İleri)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="skill-years-input">Deneyim (Yıl)</label>
+                <input type="number" id="skill-years-input" class="form-control" min="0" max="50" value="2" required>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-full">
+                  Beceriyi Profilime Ekle
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Sağ Panel: Profildeki Beceriler -->
+          <div class="api-card">
+            <div class="api-card-header">
+              <h3 class="api-card-title">
+                Profilimdeki Beceriler
+              </h3>
+            </div>
+            <div id="user-skills-list" class="user-skills-container">
+              <div class="empty-state">Beceriler yükleniyor...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Postings & Match Score -->
+      <div id="tab-postings" class="tab-pane">
+        <div class="api-card margin-bottom-lg">
           <div class="api-card-header">
             <h3 class="api-card-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               Yayındaki Staj İlanları
             </h3>
             <button id="btn-fetch-postings" class="btn btn-outline btn-sm">
@@ -309,46 +525,45 @@
           
           <div id="postings-container" class="postings-list">
             <div class="empty-state">
-              İlanları listelemek için giriş yapın ve "İlanları Yenile" butonuna tıklayın.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Uygunluk Skoru Sonuç Alanı -->
-      <div id="score-result-card" class="api-card score-result-card hidden">
-        <div class="api-card-header">
-          <h3 class="api-card-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Uygunluk Skoru Hesaplama Sonucu
-          </h3>
-          <span id="result-posting-title" class="result-posting-tag"></span>
-        </div>
-        
-        <div class="score-summary-grid">
-          <div class="score-main-box">
-            <div class="score-label">Toplam Uygunluk Skoru</div>
-            <div id="result-total-score" class="score-big-value">%0</div>
-            <div class="progress-bar-container large">
-              <div id="result-score-bar" class="progress-bar" style="width: 0%;"></div>
-            </div>
-          </div>
-
-          <div class="score-stats-box">
-            <div class="score-stat-item">
-              <span class="score-stat-label">Eşleşen Kriter Sayısı</span>
-              <span id="result-matched-count" class="score-stat-val">0</span>
-            </div>
-            <div class="score-stat-item">
-              <span class="score-stat-label">Toplam Kriter Sayısı</span>
-              <span id="result-total-count" class="score-stat-val">0</span>
+              İlanları yüklemek için giriş yapın ve "İlanları Yenile" butonuna tıklayın.
             </div>
           </div>
         </div>
 
-        <div class="score-details-section">
-          <h4>Kriter Bazlı Detay Değerlendirmesi:</h4>
-          <div id="result-details-list" class="details-list"></div>
+        <!-- Uygunluk Skoru Sonuç Alanı -->
+        <div id="score-result-card" class="api-card score-result-card hidden">
+          <div class="api-card-header">
+            <h3 class="api-card-title">
+              Uygunluk Skoru Hesaplama Sonucu
+            </h3>
+            <span id="result-posting-title" class="result-posting-tag"></span>
+          </div>
+          
+          <div class="score-summary-grid">
+            <div class="score-main-box">
+              <div class="score-label">Toplam Uygunluk Skoru</div>
+              <div id="result-total-score" class="score-big-value">%0</div>
+              <div class="progress-bar-container large">
+                <div id="result-score-bar" class="progress-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="score-stats-box">
+              <div class="score-stat-item">
+                <span class="score-stat-label">Eşleşen Kriter Sayısı</span>
+                <span id="result-matched-count" class="score-stat-val">0</span>
+              </div>
+              <div class="score-stat-item">
+                <span class="score-stat-label">Toplam Kriter Sayısı</span>
+                <span id="result-total-count" class="score-stat-val">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="score-details-section">
+            <h4>Kriter Bazlı Detay Değerlendirmesi:</h4>
+            <div id="result-details-list" class="details-list"></div>
+          </div>
         </div>
       </div>
 
@@ -372,7 +587,7 @@
         <li><a href="#ozellikler">Özellikler</a></li>
         <li><a href="#nasil-calisir">Nasıl Çalışır</a></li>
         <li><a href="#uygunluk-skoru">Uygunluk Skoru</a></li>
-        <li><a href="#api-demo">Canlı API Demo</a></li>
+        <li><a href="#api-demo">Öğrenci Portalı</a></li>
       </ul>
 
       <p class="footer-copy">&copy; 2026 InternMatch. Tüm hakları saklıdır.</p>

@@ -26,10 +26,11 @@
         <li><a href="#ozellikler">Özellikler</a></li>
         <li><a href="#nasil-calisir">Nasıl Çalışır</a></li>
         <li><a href="#uygunluk-skoru">Uygunluk Skoru</a></li>
+        <li><a href="#api-demo">Canlı API Demo</a></li>
       </ul>
 
       <div class="nav-actions">
-        <a href="#uygunluk-skoru" class="btn btn-outline">Giriş Yap</a>
+        <a href="#api-demo" class="btn btn-outline">Giriş Yap</a>
       </div>
     </div>
   </header>
@@ -253,7 +254,108 @@
     </div>
   </section>
 
-  <!-- 6. Footer -->
+  <!-- 6. API Canlı Demo & Test Alanı -->
+  <section id="api-demo" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Canlı Backend API Eşleşme Paneli</h2>
+        <p class="section-subtitle">Spring Boot REST API servisi ile gerçek zamanlı giriş yapın, aktif ilanları listeleyin ve skor hesaplatın.</p>
+      </div>
+
+      <!-- Bildirim / Mesaj Alanı -->
+      <div id="api-message-box" class="api-message-box hidden"></div>
+
+      <div class="api-demo-grid">
+        <!-- Sol Panel: Login & Kullanıcı Durumu -->
+        <div class="api-card">
+          <div class="api-card-header">
+            <h3 class="api-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Giriş İşlemleri
+            </h3>
+            <span id="token-status-badge" class="badge badge-error">Giriş Yapılmadı</span>
+          </div>
+          <form id="login-form" class="api-form">
+            <div class="form-group">
+              <label for="login-email">Öğrenci E-posta</label>
+              <input type="email" id="login-email" class="form-control" value="batuhan@example.com" required placeholder="batuhan@example.com">
+            </div>
+            <div class="form-group">
+              <label for="login-password">Şifre</label>
+              <input type="password" id="login-password" class="form-control" value="password123" required placeholder="••••••••">
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="btn-login" class="btn btn-primary btn-full">
+                Giriş Yap (POST /api/auth/login)
+              </button>
+              <button type="button" id="btn-logout" class="btn btn-secondary hidden">
+                Otumu Kapat
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sağ Panel: Staj İlanları Listesi -->
+        <div class="api-card">
+          <div class="api-card-header">
+            <h3 class="api-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Yayındaki Staj İlanları
+            </h3>
+            <button id="btn-fetch-postings" class="btn btn-outline btn-sm">
+              İlanları Yenile (GET /api/internship-postings)
+            </button>
+          </div>
+          
+          <div id="postings-container" class="postings-list">
+            <div class="empty-state">
+              İlanları listelemek için giriş yapın ve "İlanları Yenile" butonuna tıklayın.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Uygunluk Skoru Sonuç Alanı -->
+      <div id="score-result-card" class="api-card score-result-card hidden">
+        <div class="api-card-header">
+          <h3 class="api-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Uygunluk Skoru Hesaplama Sonucu
+          </h3>
+          <span id="result-posting-title" class="result-posting-tag"></span>
+        </div>
+        
+        <div class="score-summary-grid">
+          <div class="score-main-box">
+            <div class="score-label">Toplam Uygunluk Skoru</div>
+            <div id="result-total-score" class="score-big-value">%0</div>
+            <div class="progress-bar-container large">
+              <div id="result-score-bar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="score-stats-box">
+            <div class="score-stat-item">
+              <span class="score-stat-label">Eşleşen Kriter Sayısı</span>
+              <span id="result-matched-count" class="score-stat-val">0</span>
+            </div>
+            <div class="score-stat-item">
+              <span class="score-stat-label">Toplam Kriter Sayısı</span>
+              <span id="result-total-count" class="score-stat-val">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-details-section">
+          <h4>Kriter Bazlı Detay Değerlendirmesi:</h4>
+          <div id="result-details-list" class="details-list"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. Footer -->
   <footer class="footer">
     <div class="container footer-container">
       <a href="#" class="brand">
@@ -270,11 +372,13 @@
         <li><a href="#ozellikler">Özellikler</a></li>
         <li><a href="#nasil-calisir">Nasıl Çalışır</a></li>
         <li><a href="#uygunluk-skoru">Uygunluk Skoru</a></li>
+        <li><a href="#api-demo">Canlı API Demo</a></li>
       </ul>
 
       <p class="footer-copy">&copy; 2026 InternMatch. Tüm hakları saklıdır.</p>
     </div>
   </footer>
 
+  <script src="app.js"></script>
 </body>
 </html>

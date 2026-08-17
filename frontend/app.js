@@ -1,16 +1,17 @@
 /* ==========================================
-   InternMatch - Full Student Dashboard Client
+   InternMatch - Client App with Routing
    ========================================== */
 
 const API_BASE_URL = 'http://localhost:8081';
 
 // App State
-let activeTab = 'auth';
+let activeTab = 'profile';
 let availableSkills = [];
 
 // DOM Elements
-let apiMessageBox, tokenStatusBadge, loggedInUserSpan, authActionsBox;
-let registerForm, loginForm, btnLogout;
+let apiMessageBox;
+let registerForm, loginForm;
+let navLoginBtn, navRegisterBtn, navDashboardLink, navLogoutBtn, navUserBadge;
 let profileForm, btnSaveProfile, profileStatusBadge;
 let skillForm, skillSelect, skillLevelSelect, skillYearsInput, userSkillsList;
 let postingsContainer, btnFetchPostings;
@@ -21,21 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initDOM();
   initEventListeners();
   updateAuthUI();
-  
-  if (getToken()) {
-    onUserLoggedIn();
-  }
+  handleRouting();
 });
 
 function initDOM() {
-  apiMessageBox = document.getElementById('api-message-box');
-  tokenStatusBadge = document.getElementById('token-status-badge');
-  loggedInUserSpan = document.getElementById('logged-in-user-info');
-  authActionsBox = document.getElementById('auth-actions-box');
+  apiMessageBox = document.getElementById('global-message-box');
+
+  navLoginBtn = document.getElementById('nav-login-btn');
+  navRegisterBtn = document.getElementById('nav-register-btn');
+  navDashboardLink = document.getElementById('nav-dashboard-link');
+  navLogoutBtn = document.getElementById('nav-logout-btn');
+  navUserBadge = document.getElementById('nav-user-badge');
 
   registerForm = document.getElementById('register-form');
   loginForm = document.getElementById('login-form');
-  btnLogout = document.getElementById('btn-logout');
 
   profileForm = document.getElementById('profile-form');
   btnSaveProfile = document.getElementById('btn-save-profile');
@@ -60,7 +60,10 @@ function initDOM() {
 }
 
 function initEventListeners() {
-  // Tab Switching
+  // Hash Routing
+  window.addEventListener('hashchange', handleRouting);
+
+  // Tab Switching inside Dashboard
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const targetTab = e.currentTarget.getAttribute('data-tab');
@@ -71,7 +74,7 @@ function initEventListeners() {
   // Auth Forms
   if (registerForm) registerForm.addEventListener('submit', handleRegister);
   if (loginForm) loginForm.addEventListener('submit', handleLogin);
-  if (btnLogout) btnLogout.addEventListener('click', handleLogout);
+  if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleLogout);
 
   // Profile Form
   if (profileForm) profileForm.addEventListener('submit', handleSaveProfile);
@@ -86,7 +89,54 @@ function initEventListeners() {
   });
 }
 
-// Helper: Token Storage
+// ROUTING LOGIC (#, #login, #register, #dashboard)
+function handleRouting() {
+  const hash = window.location.hash || '#';
+  
+  const viewHome = document.getElementById('view-home');
+  const viewLogin = document.getElementById('view-login');
+  const viewRegister = document.getElementById('view-register');
+  const viewDashboard = document.getElementById('view-dashboard');
+
+  if (viewHome) viewHome.classList.add('hidden');
+  if (viewLogin) viewLogin.classList.add('hidden');
+  if (viewRegister) viewRegister.classList.add('hidden');
+  if (viewDashboard) viewDashboard.classList.add('hidden');
+
+  clearMessage();
+
+  if (hash === '#login') {
+    if (viewLogin) viewLogin.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (hash === '#register') {
+    if (viewRegister) viewRegister.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (hash === '#dashboard' || hash === '#api-demo') {
+    if (viewDashboard) viewDashboard.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (getToken()) {
+      onUserLoggedIn();
+    } else {
+      showMessage('Portal alanını görüntülemek için önce giriş yapmalısınız.', 'info');
+    }
+  } else {
+    // Default Home View
+    if (viewHome) viewHome.classList.remove('hidden');
+    
+    if (hash && hash !== '#') {
+      const targetEl = document.querySelector(hash);
+      if (targetEl) {
+        setTimeout(() => {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+}
+
+// Token Storage Helpers
 function getToken() {
   return localStorage.getItem('jwtToken');
 }
@@ -104,32 +154,25 @@ function setToken(token, userEmail = '', userName = '') {
   updateAuthUI();
 }
 
-// UI State Update
 function updateAuthUI() {
   const token = getToken();
   const userEmail = localStorage.getItem('userEmail') || '';
   const userName = localStorage.getItem('userName') || '';
 
   if (token) {
-    if (tokenStatusBadge) {
-      tokenStatusBadge.textContent = 'Giriş Yapıldı - Oturum Aktif';
-      tokenStatusBadge.className = 'badge badge-success';
+    if (navLoginBtn) navLoginBtn.classList.add('hidden');
+    if (navRegisterBtn) navRegisterBtn.classList.add('hidden');
+    if (navLogoutBtn) navLogoutBtn.classList.remove('hidden');
+    if (navUserBadge) {
+      navUserBadge.textContent = userName || userEmail || 'Giriş Yapıldı';
+      navUserBadge.classList.remove('hidden');
     }
-    if (loggedInUserSpan) {
-      loggedInUserSpan.textContent = userName ? `${userName} (${userEmail})` : userEmail;
-    }
-    if (authActionsBox) authActionsBox.classList.remove('hidden');
-    if (btnLogout) btnLogout.classList.remove('hidden');
+    if (navDashboardLink) navDashboardLink.classList.remove('hidden');
   } else {
-    if (tokenStatusBadge) {
-      tokenStatusBadge.textContent = 'Giriş Yapılmadı';
-      tokenStatusBadge.className = 'badge badge-error';
-    }
-    if (loggedInUserSpan) {
-      loggedInUserSpan.textContent = 'Ziyaretçi';
-    }
-    if (authActionsBox) authActionsBox.classList.add('hidden');
-    if (btnLogout) btnLogout.classList.add('hidden');
+    if (navLoginBtn) navLoginBtn.classList.remove('hidden');
+    if (navRegisterBtn) navRegisterBtn.classList.remove('hidden');
+    if (navLogoutBtn) navLogoutBtn.classList.add('hidden');
+    if (navUserBadge) navUserBadge.classList.add('hidden');
   }
 }
 
@@ -144,7 +187,6 @@ function switchTab(tabName) {
 
   clearMessage();
 
-  // Load data for specific tabs if authenticated
   if (getToken()) {
     if (tabName === 'profile') loadProfile();
     if (tabName === 'skills') {
@@ -168,6 +210,7 @@ function showMessage(message, type = 'info') {
   apiMessageBox.className = `api-message-box message-${type}`;
   apiMessageBox.textContent = message;
   apiMessageBox.classList.remove('hidden');
+  apiMessageBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function clearMessage() {
@@ -176,14 +219,14 @@ function clearMessage() {
   apiMessageBox.textContent = '';
 }
 
-// Error Handler (Requirements 7)
+// Error Handler
 function handleApiError(status, customMsg = '') {
   let text = '';
   switch (status) {
     case 401:
       text = 'Token yok veya süresi dolmuş, tekrar giriş yapmalısınız.';
       setToken(null);
-      switchTab('auth');
+      window.location.hash = '#login';
       break;
     case 403:
       text = 'Bu işlem için yetkiniz bulunmamaktadır.';
@@ -192,7 +235,7 @@ function handleApiError(status, customMsg = '') {
       text = 'İstenen kayıt bulunamadı.';
       break;
     case 409:
-      text = 'Bu kayıt zaten mevcut. Güncelleme işlemi deneniyor...';
+      text = 'Bu kayıt zaten mevcut.';
       break;
     case 500:
       text = 'Sunucu hatası oluştu. Lütfen tekrar deneyin.';
@@ -203,7 +246,7 @@ function handleApiError(status, customMsg = '') {
   showMessage(text, 'error');
 }
 
-// 1. REGISTRATION (Requirement 1)
+// 1. REGISTRATION
 async function handleRegister(e) {
   e.preventDefault();
   clearMessage();
@@ -239,7 +282,7 @@ async function handleRegister(e) {
 
     if (!response.ok) {
       if (response.status === 409 || response.status === 400) {
-        showMessage('Bu e-posta adresi zaten kayıtlı veya bilgiler geçersiz.', 'error');
+        showMessage('Bu e-posta adresi zaten kayıtlı veya girilen bilgiler geçersiz.', 'error');
       } else {
         handleApiError(response.status);
       }
@@ -250,12 +293,12 @@ async function handleRegister(e) {
     if (data && data.token) {
       const user = data.user || {};
       setToken(data.token, user.email || email, `${user.firstName || firstName} ${user.lastName || lastName}`);
-      showMessage('Kayıt başarılı! Hesabınız oluşturuldu.', 'success');
+      showMessage('Kayıt başarılı! Hesabınız oluşturuldu, öğrenci portalına yönlendiriliyorsunuz...', 'success');
       registerForm.reset();
-      onUserLoggedIn();
-      switchTab('profile');
+      window.location.hash = '#dashboard';
     } else {
-      showMessage('Kayıt yapıldı ancak oturum açma token\'ı alınamadı.', 'info');
+      showMessage('Kayıt tamamlandı. Lütfen giriş yapın.', 'success');
+      window.location.hash = '#login';
     }
   } catch (err) {
     console.error('Register Error:', err);
@@ -266,7 +309,7 @@ async function handleRegister(e) {
   }
 }
 
-// 2. LOGIN (Requirement 2)
+// 2. LOGIN
 async function handleLogin(e) {
   e.preventDefault();
   clearMessage();
@@ -275,7 +318,7 @@ async function handleLogin(e) {
   const password = document.getElementById('login-password').value.trim();
 
   if (!email || !password) {
-    showMessage('Lütfen e-posta ve şifre girin.', 'error');
+    showMessage('Lütfen e-posta adresi ve şifrenizi girin.', 'error');
     return;
   }
 
@@ -300,8 +343,7 @@ async function handleLogin(e) {
       const user = data.user || {};
       setToken(data.token, user.email || email, `${user.firstName || ''} ${user.lastName || ''}`.trim() || email);
       showMessage('Giriş başarılı! Hoş geldiniz.', 'success');
-      onUserLoggedIn();
-      switchTab('postings');
+      window.location.hash = '#dashboard';
     } else {
       showMessage('Geçersiz token yanıtı alındı.', 'error');
     }
@@ -317,13 +359,10 @@ async function handleLogin(e) {
 function handleLogout() {
   setToken(null);
   showMessage('Oturum kapatıldı.', 'info');
-  switchTab('auth');
-  if (userSkillsList) userSkillsList.innerHTML = '<div class="empty-state">Önce giriş yapmalısınız.</div>';
-  if (postingsContainer) postingsContainer.innerHTML = '<div class="empty-state">Önce giriş yapmalısınız.</div>';
-  if (scoreResultCard) scoreResultCard.classList.add('hidden');
+  window.location.hash = '#login';
 }
 
-// 3. STUDENT PROFILE (Requirement 3)
+// 3. STUDENT PROFILE
 async function loadProfile() {
   const token = getToken();
   if (!token) return;
@@ -345,9 +384,7 @@ async function loadProfile() {
       return;
     }
 
-    if (!response.ok) {
-      return;
-    }
+    if (!response.ok) return;
 
     const profile = await response.json();
     populateProfileForm(profile);
@@ -402,7 +439,7 @@ async function handleSaveProfile(e) {
   const token = getToken();
   if (!token) {
     showMessage('Önce giriş yapmalısınız.', 'error');
-    switchTab('auth');
+    window.location.hash = '#login';
     return;
   }
 
@@ -411,7 +448,6 @@ async function handleSaveProfile(e) {
   btnSaveProfile.textContent = 'Kaydediliyor...';
 
   try {
-    // Check if profile exists first
     const checkRes = await fetch(`${API_BASE_URL}/api/students/profile/me`, {
       method: 'GET',
       headers: {
@@ -423,7 +459,6 @@ async function handleSaveProfile(e) {
     let saveRes;
 
     if (checkRes.ok) {
-      // Update with PUT
       saveRes = await fetch(`${API_BASE_URL}/api/students/profile`, {
         method: 'PUT',
         headers: {
@@ -433,7 +468,6 @@ async function handleSaveProfile(e) {
         body: JSON.stringify(profileData)
       });
     } else {
-      // Create with POST
       saveRes = await fetch(`${API_BASE_URL}/api/students/profile`, {
         method: 'POST',
         headers: {
@@ -443,7 +477,6 @@ async function handleSaveProfile(e) {
         body: JSON.stringify(profileData)
       });
 
-      // Handle 409 Fallback to PUT
       if (saveRes.status === 409) {
         showMessage('Profil sistemde mevcut. Güncelleniyor...', 'info');
         saveRes = await fetch(`${API_BASE_URL}/api/students/profile`, {
@@ -478,7 +511,7 @@ async function handleSaveProfile(e) {
   }
 }
 
-// 4. SKILL MANAGEMENT (Requirement 4)
+// 4. SKILL MANAGEMENT
 async function loadSkillCatalog() {
   const token = getToken();
   if (!token || !skillSelect) return;
@@ -502,7 +535,7 @@ async function loadSkillCatalog() {
     });
     skillSelect.innerHTML = html;
   } catch (err) {
-    console.error('Load Skills Catalogue Error:', err);
+    console.error('Load Skills Catalog Error:', err);
   }
 }
 
@@ -522,7 +555,7 @@ async function loadUserSkills() {
     });
 
     if (response.status === 404) {
-      userSkillsList.innerHTML = '<div class="empty-state">Profil henüz oluşturulmadığı için beceriler listelenemiyor. Lütfen "Öğrenci Profili" sekmesinden profili kaydedin.</div>';
+      userSkillsList.innerHTML = '<div class="empty-state">Profil henüz oluşturulmadığı için beceriler listelenemiyor.</div>';
       return;
     }
 
@@ -578,7 +611,7 @@ async function handleAddSkill(e) {
   const token = getToken();
   if (!token) {
     showMessage('Önce giriş yapmalısınız.', 'error');
-    switchTab('auth');
+    window.location.hash = '#login';
     return;
   }
 
@@ -609,7 +642,7 @@ async function handleAddSkill(e) {
       if (response.status === 409) {
         showMessage('Bu beceri profilinize zaten eklenmiş.', 'error');
       } else if (response.status === 404) {
-        showMessage('Lütfen önce "Öğrenci Profili" sekmesinden profilinizi oluşturun.', 'error');
+        showMessage('Lütfen önce profil bilgilerinizi kaydedin.', 'error');
       } else {
         handleApiError(response.status);
       }
@@ -654,7 +687,7 @@ async function deleteUserSkill(studentSkillId) {
   }
 }
 
-// 5. POSTINGS LIST (Requirement 5)
+// 5. POSTINGS LIST
 async function fetchPostings() {
   const token = getToken();
   if (!token) {
@@ -760,14 +793,14 @@ function renderPostings(postings) {
   postingsContainer.innerHTML = html;
 }
 
-// 6. MATCH SCORE CALCULATION (Requirement 6)
+// 6. MATCH SCORE CALCULATION
 async function calculateScore(postingId, postingTitle, companyName) {
   clearMessage();
   const token = getToken();
 
   if (!token) {
     showMessage('Uygunluk skoru hesaplamak için önce giriş yapmalısınız.', 'error');
-    switchTab('auth');
+    window.location.hash = '#login';
     return;
   }
 
@@ -790,7 +823,7 @@ async function calculateScore(postingId, postingTitle, companyName) {
 
     if (!response.ok) {
       if (response.status === 404) {
-        showMessage('Önce "Öğrenci Profili" sekmesinden profilinizi oluşturmalısınız.', 'error');
+        showMessage('Önce öğrenci profilinizi oluşturmalısınız.', 'error');
       } else {
         handleApiError(response.status);
       }
@@ -799,7 +832,7 @@ async function calculateScore(postingId, postingTitle, companyName) {
 
     const result = await response.json();
     renderScoreResult(result, postingTitle, companyName);
-    showMessage(`"${postingTitle}" ilanı için uygunluk skorunuz başarıyla hesaplandı!`, 'success');
+    showMessage(`"${postingTitle}" ilanı için uygunluk skorunuz hesaplandı!`, 'success');
   } catch (err) {
     console.error('Calculate Score Error:', err);
     showMessage('Backend sunucusuna erişilemedi.', 'error');
@@ -844,7 +877,6 @@ function renderScoreResult(data, postingTitle, companyName) {
     resultTotalCount.textContent = data.totalCriteriaCount != null ? data.totalCriteriaCount : 0;
   }
 
-  // Parse Details
   let details = data.details;
   if (!details && data.detailsJson) {
     try {
@@ -870,7 +902,7 @@ function renderScoreResult(data, postingTitle, companyName) {
             </div>
             <div class="detail-meta">
               <span>Kriter Tipi: ${escapeHtml(item.criterionType || 'Genel')}</span> | 
-              <span>Kriter Ağırlığı: %${item.weight != null ? item.weight : 0}</span> | 
+              <span>Ağırlık: %${item.weight != null ? item.weight : 0}</span> | 
               <span>Kazanılan Skor: ${item.earnedScore != null ? item.earnedScore : 0}</span>
             </div>
             ${item.description ? `<div class="detail-desc">${escapeHtml(item.description)}</div>` : ''}
@@ -886,7 +918,7 @@ function renderScoreResult(data, postingTitle, companyName) {
   scoreResultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Utility Escapers & Formatters
+// Utility Escapers
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)

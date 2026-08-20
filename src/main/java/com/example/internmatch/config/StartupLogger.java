@@ -32,8 +32,8 @@ public class StartupLogger {
 
         String border = "========================================";
         String message = String.format(
-                "\n%s\nInternMatch Backend calisiyor\nBackend URL: %s\nHealth Check: %s/api/health\nSwagger UI: %s/swagger-ui.html\nOpenAPI Docs: %s/v3/api-docs\n%s",
-                border, baseUrl, baseUrl, baseUrl, baseUrl, border
+                "\n%s\nInternMatch Backend calisiyor\nHomepage URL: http://localhost:5500\nHealth Check: %s/api/health\nSwagger UI: %s/swagger-ui.html\nOpenAPI Docs: %s/v3/api-docs\n%s",
+                border, baseUrl, baseUrl, baseUrl, border
         );
 
         log.info(message);

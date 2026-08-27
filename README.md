@@ -8,7 +8,7 @@ The system consists of a Spring Boot-based backend and a lightweight frontend de
 
 InternMatch aims to reduce the inefficiency of internship search processes by bringing student profile information, internship postings, posting criteria, and eligibility score calculation into a single digital workflow.
 
-In the current version, the platform mainly focuses on the student-oriented workflow. Students can register, log in, create a profile, add skills, view internship postings, and calculate their eligibility score for postings. Employer-side posting and criteria operations are supported through backend API operations, while a complete company-facing frontend management panel is considered a future improvement.
+In the current version, the platform mainly focuses on the student-oriented frontend workflow. Students can register, log in, create a profile, add skills, view internship postings, and calculate their eligibility score for postings. On the backend side, company profile operations, internship posting operations, posting criteria operations, and match score operations are exposed through API endpoints and can be tested through Swagger UI.
 
 ## Key Features
 
@@ -22,14 +22,14 @@ In the current version, the platform mainly focuses on the student-oriented work
 - Eligibility score calculation
 - Swagger UI API documentation
 - PostgreSQL database support
-- H2 database support for local development
+- H2 database structure used during development/testing when configured
 - Automated tests for selected backend components
 
 ## Technology Stack
 
 | Category | Technologies |
 |---|---|
-| Backend | Java, Spring Boot, Spring Web, Spring Security, Spring Data JPA, Hibernate |
+| Backend | Java, Spring Boot, Spring Web, Spring Security, Spring Data JPA, Hibernate, Lombok |
 | Frontend | HTML5, CSS3, Vanilla JavaScript, Fetch API, localStorage |
 | Database | PostgreSQL, H2 Database |
 | Security | JWT, BCrypt, Stateless Session |
@@ -46,9 +46,9 @@ In the current version, the platform mainly focuses on the student-oriented work
 | Authentication | User registration, login, JWT token generation, and current user retrieval |
 | Student Profile | Student profile creation, retrieval, and update operations |
 | Skills | Skill catalog listing and student skill association |
-| Company Profile | Company-related data structure and backend profile operations |
-| Internship Postings | Internship posting creation, listing, retrieval, update, and status management |
-| Posting Criteria | Criteria definition and management for internship postings |
+| Company Profile | Company profile retrieval and company-related backend operations |
+| Internship Postings | Internship posting creation, listing, retrieval, update, deletion, and status management |
+| Posting Criteria | Criteria creation, listing, update, and deletion for internship postings |
 | Match Score | Eligibility score calculation and score result management |
 | Health Controller | Basic backend health check endpoint |
 
@@ -83,7 +83,7 @@ The database includes `applications` and `audit_logs` structures for future exte
 
 - Java 17 or higher
 - Apache Maven
-- PostgreSQL 12+ for persistent database usage
+- PostgreSQL 12+ for the default database configuration
 - Modern web browser
 
 ## Backend Setup
@@ -151,10 +151,12 @@ Swagger UI was used to inspect endpoint groups, request parameters, request bodi
 | Internship Postings | Posting creation, listing, update, and status operations |
 | Posting Criteria | Criteria management for postings |
 | Match Score | Eligibility score calculation and score retrieval |
-| Company Profile | Company profile-related backend operations |
+| Company Profile | Company profile retrieval and company-related API operations |
 | Health Controller | Backend running status check |
 
 ## Database Schema
+
+The default database configuration uses PostgreSQL. The project also contains H2-related development support, but H2 is not the default active database configuration in the current setup.
 
 The database schema includes active workflow tables and future extension structures.
 
@@ -164,7 +166,7 @@ The database schema includes active workflow tables and future extension structu
 | roles | Stores role definitions |
 | user_roles | Associates users with roles |
 | student_profiles | Stores student academic and profile information |
-| student_skills | Associates students with skills |
+| student_skills | Join table that associates student profiles with skills and stores proficiency level and experience information |
 | skills | Stores the system-wide skill catalog |
 | companies | Stores company information |
 | internship_postings | Stores internship posting information |
@@ -251,5 +253,5 @@ Developed as an individual internship project.
 ## Version
 
 Version: 1.0.0  
-Last Updated: August 2026  
+Last Updated: 2026-08  
 Status: Internship Project Prototype
